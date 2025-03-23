@@ -1,0 +1,12 @@
+# Bỏ thư mục node_modules (chứa package cài bằng npm)
+node_modules/
+
+# Bỏ file cấu hình môi trường
+.env
+
+# Bỏ thư mục build hoặc dist (nếu có)
+dist/
+build/
+
+# Bỏ file Firebase config (nếu có chứa thông tin nhạy cảm)
+firebase.json

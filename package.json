@@ -1,0 +1,26 @@
+{
+  "type": "module",
+  "name": "blennd",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ANHMAYCANCHET0/BLENND.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ANHMAYCANCHET0/BLENND/issues"
+  },
+  "homepage": "https://github.com/ANHMAYCANCHET0/BLENND#readme",
+  "description": "",
+  "dependencies": {
+    "firebase": "^11.5.0"
+  }
+
+}

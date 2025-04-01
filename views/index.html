@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLENND</title>
+    <link rel="stylesheet" href="../public/css/styles.css">
+  </head>
+  <body>
+    <!-- Menu -->
+    <div class="menu">
+      <div class="logo">BLENND</div>
+      <div class="nav-links">
+        <a href="/index" id="homeLink">Trang chủ</a>
+                <script type="module" src="../public/js/main.js"></script>
+        <a href="/cart" id="cartLink">Giỏ hàng</a>
+        <a href="/search" id="searchLink">Tìm kiếm</a>
+        <a href="/login" id="loginLink">Đăng nhập</a>
+                <script type="module" src="../public/js/login.js"></script>
+      </div>
+    </div>
+
+    <!-- Form đăng nhập -->
+    <div class="login-form" id="loginForm" style="display: none;">
+      <h2>Đăng nhập</h2>
+      <form id="loginFormElement">
+        <label for="email">Email hoặc Tên tài khoản:</label>
+        <input type="text" id="email" placeholder="Nhập email hoặc tên tài khoản" required>
+        <label for="password">Mật khẩu:</label>
+        <input type="password" id="password" placeholder="Nhập mật khẩu" required>
+        <button type="submit" id="loginButton">Đăng nhập</button>
+      </form>
+      <p>Chưa có tài khoản? <a href="#" id="registerLink">Đăng ký</a></p>
+    </div>
+
+    <!-- Form đăng ký -->
+    <div class="register-form" id="registerForm" style="display: none;">
+      <h2>Đăng ký tài khoản</h2>
+      <form id="registerFormElement">
+        <label for="registerName">Tên:</label>
+        <input type="text" id="registerName" placeholder="Nhập tên của bạn" required>
+        <label for="registerEmail">Email:</label>
+        <input type="email" id="registerEmail" placeholder="Nhập email" required>
+        <label for="registerPassword">Mật khẩu:</label>
+        <input type="password" id="registerPassword" placeholder="Nhập mật khẩu" required>
+        <button type="submit" id="registerButton">Đăng ký</button>
+      </form>
+    </div>
+
+    <!-- Khu vực quảng cáo -->
+    <div class="banner">
+      <img src="../public/images/advert1.jpg" alt="Quảng cáo 1">
+      <div class="tagline">Thời trang nữ tinh tế – Tỏa sáng phong cách riêng của bạn</div>
+    </div>
+
+    <!-- Danh sách sản phẩm -->
+    <div class="products"></div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>Liên hệ: 0123 456 789</p>
+      <p>Email: support@blennd.com</p>
+      <p>Địa chỉ: 123 Đường ABC, TP. XYZ</p>
+    </div>
+
+    <!-- Firebase App (Cần thiết cho tất cả các dịch vụ Firebase) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js"></script>
+    <!-- Firebase Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js"></script>
+    <script>
+      // Cấu hình Firebase
+      const firebaseConfig = {
+        apiKey: "AIzaSyC5MK9aOuHhapJGnt4bckjf5aB21uIzqjQ",
+        authDomain: "blennd-3fadf.firebaseapp.com",
+        projectId: "blennd-3fadf",
+        storageBucket: "blennd-3fadf.appspot.com",
+        messagingSenderId: "373715774646",
+        appId: "1:373715774646:web:c5000f5c00b8cdd280ca17",
+        measurementId: "G-D2HDWCE5DZ"
+      };
+
+      // Khởi tạo Firebase
+      const app = firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore(app);
+
+      // Lấy dữ liệu từ Firestore
+      const productsCollection = db.collection("products");
+      productsCollection.get().then((querySnapshot) => {
+        const productsContainer = document.querySelector(".products");
+        productsContainer.innerHTML = ""; // Xóa nội dung cũ
+
+        querySnapshot.forEach((doc) => {
+          const product = doc.data();
+          const productHTML = `
+            <div class="product">
+              <img src="${product.image}" alt="${product.name}">
+              <h3>${product.name}</h3>
+              <p>Giá: ${product.price}đ</p>
+              <button>Thêm vào giỏ hàng</button>
+            </div>
+          `;
+          productsContainer.innerHTML += productHTML;
+        });
+      }).catch((error) => {
+        console.error("Lỗi khi lấy dữ liệu:", error);
+      });
+    </script>
+    <script type="module">
+      import { loginUser } from "./firebase/firebase-config.js";
+
+      document.getElementById("loginButton").addEventListener("click", async () => {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        const role = await loginUser(email, password);
+
+        if (role === "admin") {
+          window.location.href = "/admin.html";
+        } else if (role === "staff") {
+          window.location.href = "/staff.html";
+        } else if (role === "customer") {
+          window.location.href = "/customer.html";
+        } else {
+          alert("Vai trò không hợp lệ!");
+        }
+      });
+    </script>
+    <script type="module" src="../public/js/main.js"></script>
+    
+  </body>
+</html>
